@@ -1,0 +1,43 @@
+378. Kth Smallest Element in a Sorted Matrix
+Medium
+799
+64
+
+
+Given a n x n matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.
+
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+Example:
+
+matrix = [
+   [ 1,  5,  9],
+   [10, 11, 13],
+   [12, 13, 15]
+],
+k = 8,
+
+return 13.
+Note: 
+You may assume k is always valid, 1 ≤ k ≤ n2.
+
+
+
+
+from Queue import PriorityQueue
+class Solution:
+    def kthSmallest(self, matrix, k):
+        mypq=PriorityQueue()
+        n,m=len(matrix),len(matrix[0])
+        for i in range(0,n):
+            mypq.put([matrix[i][0],i,0])
+            
+        for i in range(k-1):
+            val, r, c = mypq.get()
+            if c==m-1:
+                continue
+            mypq.put([matrix[r][c+1],r,c+1])
+            
+        value,r,c=mypq.get()
+        return value
+        
