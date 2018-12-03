@@ -40,23 +40,14 @@ class Trie(object):
         pres.isword=True
         
 
-    def search(self, word,value=False):
+    def search(self, word,value=True):
         pres=self.root
         for c in word:
             if c not in pres.children:
                 return False
             pres=pres.children[c]
-        if value==False:
-            return pres.isword
-        return True
+        return pres.isword if value else True
 
     def startsWith(self, prefix):
-        self.search(prefix,True)
+        return self.search(prefix,False)
         
-
-
-# Your Trie object will be instantiated and called as such:
-# obj = Trie()
-# obj.insert(word)
-# param_2 = obj.search(word)
-# param_3 = obj.startsWith(prefix)
