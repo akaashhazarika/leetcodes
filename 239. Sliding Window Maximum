@@ -1,0 +1,65 @@
+239. Sliding Window Maximum
+Hard
+1138
+70
+
+
+Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.
+
+Example:
+
+Input: nums = [1,3,-1,-3,5,3,6,7], and k = 3
+Output: [3,3,5,5,6,7] 
+Explanation: 
+
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+Note: 
+You may assume k is always valid, 1 ≤ k ≤ input array's size for non-empty array.
+
+Follow up:
+Could you solve it in linear time?
+
+
+from collections import deque
+class Solution(object):
+    def maxSlidingWindow(self, nums, k):
+        if k in (0,1):
+            return nums
+        if not nums:
+            return []
+        d=deque()
+        for i in range(k):
+            while len(d)!=0:
+                if nums[i]>nums[d[-1]]:
+                    d.pop()
+                else:
+                    break
+            d.append(i)
+            
+        res=[]
+        for i in range(k,len(nums)):
+            res.append(nums[d[0]])
+            if d[0]<i-k+1:
+                d.popleft()
+            while len(d)!=0:
+                if nums[i]>nums[d[-1]]:
+                    d.pop()
+                else:
+                    break
+            d.append(i)
+        res.append(nums[d[0]])
+        return res
+                
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
