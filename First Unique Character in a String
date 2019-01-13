@@ -1,0 +1,34 @@
+  First Unique Character in a String
+  Go to Discuss
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+Note: You may assume the string contain only lowercase letters.
+
+class Solution(object):
+    def firstUniqChar(self, s):
+        mapp={}
+        for i in range(len(s)):
+            if s[i] in mapp:
+                mapp[s[i]]=-1
+            else:
+                mapp[s[i]]=i
+        for keys in mapp.keys():
+            if mapp[keys]==-1:
+                mapp.pop(keys,None)
+    
+        res=[]
+        for k,v in mapp.items():
+            res.append(v)
+        res=sorted(res)
+        if len(res):
+            return res[0]
+        else:
+            return -1
+
