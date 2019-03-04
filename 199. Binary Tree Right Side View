@@ -1,0 +1,50 @@
+199. Binary Tree Right Side View
+Medium
+
+872
+
+36
+
+Favorite
+
+Share
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+Example:
+
+Input: [1,2,3,null,5,null,4]
+Output: [1, 3, 4]
+Explanation:
+
+   1            <---
+ /   \
+2     3         <---
+ \     \
+  5     4       <---
+  
+  
+import queue 
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        L = queue.Queue(maxsize=100) 
+        if root:
+            L.put((root,0))
+            mapp={}
+            res=[]
+            #(v,l)=L.get()
+            while L.empty()==False:
+                (v,l)=L.get()
+                if l not in mapp:
+                    res+=v.val,
+                    mapp[l]=1
+                if v.right:
+                    L.put((v.right,l+1))
+                if v.left:
+                    L.put((v.left,l+1))
+
+            return res
+        else:
+            return []
+    
+            
+        
