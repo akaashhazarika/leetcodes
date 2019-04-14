@@ -1,0 +1,45 @@
+947. Most Stones Removed with Same Row or Column
+Medium
+
+337
+
+83
+
+Favorite
+
+Share
+On a 2D plane, we place stones at some integer coordinate points.  Each coordinate point may have at most one stone.
+
+Now, a move consists of removing a stone that shares a column or row with another stone on the grid.
+
+What is the largest possible number of moves we can make?
+
+
+Key Insights:
+learnt about defaultdict to iteate about columns,rows
+{(i,j) for i,j in stones} to create set in place
+discard functionarlity:  Remaining was easy::::
+
+
+
+
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        points={(i,j) for i,j in stones}
+        rows,columns=collections.defaultdict(list),collections.defaultdict(list)
+        def dfs(i,j):
+            points.discard((i,j))
+            for x in rows[i]:
+                if (i,x) in points:
+                    dfs(i,x)
+            for y in columns[j]:
+                if (y,j) in points:
+                    dfs(y,j)
+        island=0
+        for i,j in stones:
+            rows[i].append(j); columns[j].append(i)
+        for i,j in stones:
+            if (i,j) in points:
+                dfs(i,j)
+                island+=1
+        return len(stones)-island
