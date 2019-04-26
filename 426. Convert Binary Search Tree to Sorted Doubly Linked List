@@ -1,0 +1,51 @@
+Medium
+
+349
+
+40
+
+Favorite
+
+Share
+Convert a BST to a sorted circular doubly-linked list in-place. Think of the left and right pointers as synonymous to the previous and next pointers in a doubly-linked list.
+
+Let's take the following BST as an example, it may help you understand the problem better:
+
+ 
+
+
+ 
+We want to transform this BST into a circular doubly linked list. Each node in a doubly linked list has a predecessor and successor. For a circular doubly linked list, the predecessor of the first element is the last element, and the successor of the last element is the first element.
+
+The figure below shows the circular doubly linked list for the BST above. The "head" symbol means the node it points to is the smallest element of the linked list.
+
+
+
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, left, right):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+class Solution(object):
+    def treeToDoublyList(self, root):
+        if root is None:
+            return None
+        dummy=Node(0,None,None)
+        prev=dummy
+        stack=[]
+        curr=root
+        while stack or curr:
+            while curr:
+                stack+=curr,
+                curr=curr.left
+            curr=stack.pop()
+            prev.right,curr.left,prev=curr,prev,curr
+            curr=curr.right
+        
+        dummy.right.left=prev
+        prev.right=dummy.right
+        return dummy.right
+        
