@@ -1,0 +1,44 @@
+Hard
+
+725
+
+94
+
+Favorite
+
+Share
+Given a list of unique words, find all pairs of distinct indices (i, j) in the given list, so that the concatenation of the two words, i.e. words[i] + words[j] is a palindrome.
+
+Example 1:
+
+Input: ["abcd","dcba","lls","s","sssll"]
+Output: [[0,1],[1,0],[3,2],[2,4]] 
+Explanation: The palindromes are ["dcbaabcd","abcddcba","slls","llssssll"]
+Example 2:
+
+Input: ["bat","tab","cat"]
+Output: [[0,1],[1,0]] 
+Explanation: The palindromes are ["battab","tabbat"]
+
+
+
+class Solution(object):
+    def palindromePairs(self, words):
+        lookup={word:index for index,word in enumerate(words)}
+        def ispalindrome(word):
+            if word==word[::-1]:
+                return True
+            return False
+        res=[]
+        for i in range(len(words)):
+            for j in range(len(words[i])+1):
+                prefix=words[i][:j]
+                suffix=words[i][j:]
+                if   prefix[::-1] in lookup and suffix==suffix[::-1] and lookup[prefix[::-1]]!=i:
+                    res.append([i,lookup[prefix[::-1]]])
+                if j!=0 and suffix[::-1] in lookup and prefix==prefix[::-1] and lookup[suffix[::-1]]!=i:
+                    res.append([lookup[suffix[::-1]],i])
+        return res
+        
+                
+            
