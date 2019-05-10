@@ -1,0 +1,58 @@
+Medium
+
+906
+
+374
+
+Favorite
+
+Share
+Given a nested list of integers, implement an iterator to flatten it.
+
+Each element is either an integer, or a list -- whose elements may also be integers or other lists.
+
+Example 1:
+
+Input: [[1,1],2,[1,1]]
+Output: [1,1,2,1,1]
+Explanation: By calling next repeatedly until hasNext returns false, 
+             the order of elements returned by next should be: [1,1,2,1,1].
+Example 2:
+
+Input: [1,[4,[6]]]
+Output: [1,4,6]
+Explanation: By calling next repeatedly until hasNext returns false, 
+             the order of elements returned by next should be: [1,4,6].
+             
+             
+             
+class NestedIterator(object):
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        self.stack=nestedList[::-1]
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        value=self.stack.pop()
+        return value
+
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        while self.stack:
+            v=self.stack[-1]
+            if v.isInteger():
+                return True
+            self.stack=self.stack[:-1]+v.getList()[::-1]
+        return False
+
+
+# Your NestedIterator object will be instantiated and called as such:
+
