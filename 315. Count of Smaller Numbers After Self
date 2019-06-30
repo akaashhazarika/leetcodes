@@ -1,0 +1,68 @@
+315. Count of Smaller Numbers After Self
+Hard
+
+1154
+
+49
+
+Favorite
+
+Share
+You are given an integer array nums and you have to return a new counts array. The counts array has the property where counts[i] is the number of smaller elements to the right of nums[i].
+
+Example:
+
+Input: [5,2,6,1]
+Output: [2,1,1,0] 
+Explanation:
+To the right of 5 there are 2 smaller elements (2 and 1).
+To the right of 2 there is only 1 smaller element (1).
+To the right of 6 there is 1 smaller element (1).
+To the right of 1 there is 0 smaller element.
+
+
+
+class Node(object):
+    def __init__(self,val):
+        self.val=val
+        self.count=1
+        self.left=None
+        self.right=None
+        self.leftsize=0
+        
+class BinaryTree(object):
+    def __init__(self):
+        self.root=None
+        
+    def insert(self,root,val):
+        if not root:
+            self.root=Node(val)
+            return 0
+        else:
+            if val==root.val:
+                root.count+=1
+                return root.leftsize
+            elif val<root.val:
+                root.leftsize+=1
+                if not root.left:
+                    root.left=Node(val)
+                    return 0
+                else:
+                    return self.insert(root.left,val)
+            else:
+                if not root.right:
+                    root.right=Node(val)
+                    return root.count+root.leftsize
+                else:
+                    return root.count+root.leftsize+\
+                    self.insert(root.right,val)
+
+
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        Tree=BinaryTree()
+        result=[]
+        for i in range(len(nums)-1,-1,-1):
+            result.append(Tree.insert(Tree.root,nums[i]))
+        return result[::-1]
+       
