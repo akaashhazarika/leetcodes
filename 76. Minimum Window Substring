@@ -1,0 +1,55 @@
+76. Minimum Window Substring
+Hard
+
+2399
+
+162
+
+Favorite
+
+Share
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+
+Example:
+
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+Note:
+
+If there is no such window in S that covers all characters in T, return the empty string "".
+If there is such window, you are guaranteed that there will always be only one unique minimum window in S.
+
+
+import collections
+class Solution(object):
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        if not t or not s:
+            return ""
+        required = collections.Counter(t)
+        unique = 0
+        getting = {}
+        start = 0 
+        maxim =float('inf')
+        result = None
+        
+        for index,value in enumerate(s):
+            getting[value] = getting.get(value,0)+1
+            if value in required and getting[value]==required[value]:
+                unique+=1            
+            while unique == len(required):
+                if (index-start+1)<maxim:
+                    maxim = (index-start+1)
+                    result = s[start:index+1]
+                getting[s[start]]-=1
+                if s[start] in required and getting[s[start]]<required[s[start]]:
+                    unique-=1
+                
+                start+=1
+        return "" if result is None else result
+                
+                
