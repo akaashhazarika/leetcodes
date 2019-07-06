@@ -1,0 +1,43 @@
+320. Generalized Abbreviation
+Medium
+
+285
+
+30
+
+Favorite
+
+Share
+Write a function to generate the generalized abbreviations of a word. 
+
+Note: The order of the output does not matter.
+
+Example:
+
+Input: "word"
+Output:
+["word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"]
+ 
+ 
+ class Solution(object):
+    def generateAbbreviations(self, word):
+        """
+        :type word: str
+        :rtype: List[str]
+        """
+        res=[]
+        def helper(index,curr,isvalue):
+            if index==len(word):
+                res.append(''.join(list(curr)))
+                return
+            helper(index+1,curr+[word[index]],None)
+            if isvalue is not None:
+                curr.pop()
+                helper(index+1,curr+[str(isvalue+1)],isvalue+1)
+            else:
+                helper(index+1,curr+[str(1)],1)
+            
+        
+        
+        helper(0,[],None)
+        return res
