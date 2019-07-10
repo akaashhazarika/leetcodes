@@ -1,0 +1,53 @@
+727. Minimum Window Subsequence
+Hard
+
+324
+
+16
+
+Favorite
+
+Share
+Given strings S and T, find the minimum (contiguous) substring W of S, so that T is a subsequence of W.
+
+If there is no such window in S that covers all characters in T, return the empty string "". If there are multiple such minimum-length windows, return the one with the left-most starting index.
+
+Example 1:
+
+Input: 
+S = "abcdebdde", T = "bde"
+Output: "bcde"
+Explanation: 
+"bcde" is the answer because it occurs before "bdde" which has the same length.
+"deb" is not a smaller window because the elements of T in the window must occur in order.
+ 
+
+Note:
+
+All the strings in the input will only contain lowercase letters.
+The length of S will be in the range [1, 20000].
+The length of T will be in the range [1, 100].
+
+
+
+import collections
+class Solution:
+    def minWindow(self, S: str, T: str) -> str:
+        results = [index if value == T[0] else None for\
+                   index,value in enumerate(S)]
+        for l in range(1,len(T)):
+            present= [None]*len(S)
+            seen = None
+            for index,value in enumerate(S):
+                if seen is not None and S[index]==T[l]: present[index] =seen
+                if results[index] is not None : seen =results[index]
+            results = present
+        
+        start,end = 0,len(S)
+        for index,value in enumerate(results):
+            if value is not None and (index-value)<(end-start):
+                end,start = index,value
+        if end==len(S):
+            return ""
+        else:
+            return S[start:end+1]
