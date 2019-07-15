@@ -1,0 +1,41 @@
+680. Valid Palindrome II
+Easy
+
+777
+
+49
+
+Favorite
+
+Share
+Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
+
+Example 1:
+Input: "aba"
+Output: True
+Example 2:
+Input: "abca"
+Output: True
+Explanation: You could delete the character 'c'.
+Note:
+The string will only contain lowercase characters a-z. The maximum length of the string is 50000.
+
+
+import collections
+class Solution(object):
+    def validPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        def ispalindrome(m):
+            return all(m[i]==m[~i] for i in range(len(m)/2))
+        start,end=0,len(s)-1
+        while start<end:
+            if s[start]==s[end]:
+                start+=1
+                end-=1
+            else:
+                return (ispalindrome(s[start+1:end+1]) or ispalindrome(s[start:end]))
+        return True
+      
