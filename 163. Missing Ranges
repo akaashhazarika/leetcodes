@@ -1,0 +1,49 @@
+163. Missing Ranges
+Medium
+
+214
+
+1239
+
+Favorite
+
+Share
+Given a sorted integer array nums, where the range of elements are in the inclusive range [lower, upper], return its missing ranges.
+
+Example:
+
+Input: nums = [0, 1, 3, 50, 75], lower = 0 and upper = 99,
+Output: ["2", "4->49", "51->74", "76->99"]
+Accepted
+
+
+from collections import deque
+class Solution(object):
+    def findMissingRanges(self, nums, lower, upper):
+        """
+        :type nums: List[int]
+        :type lower: int
+        :type upper: int
+        :rtype: List[str]
+        """
+        if not nums:
+            return [str(lower)] if lower==upper else [str(lower)+'->'+str(upper)]
+        results=deque()
+        for s1,s2 in zip(nums,nums[1:]):
+            if s2-s1==2:
+                results.append(str(s1+1))
+            elif s2-s1>2:
+                results.append(str(s1+1)+'->'+str(s2-1))
+        if upper-nums[-1]>=2:
+            results.append(str(nums[-1]+1)+'->'+str(upper))
+        elif upper-nums[-1]==1:
+            results.append(str(upper))
+        
+        
+        if nums[0]-lower>=2:
+            results.appendleft(str(lower)+'->'+str(nums[0]-1))
+        if nums[0]-lower==1:
+            results.appendleft(str(lower))
+        return list(results)
+        
+        
