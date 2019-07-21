@@ -1,0 +1,54 @@
+346. Moving Average from Data Stream
+Easy
+
+309
+
+37
+
+Favorite
+
+Share
+Given a stream of integers and a window size, calculate the moving average of all integers in the sliding window.
+
+Example:
+
+MovingAverage m = new MovingAverage(3);
+m.next(1) = 1
+m.next(10) = (1 + 10) / 2
+m.next(3) = (1 + 10 + 3) / 3
+m.next(5) = (10 + 3 + 5) / 3
+
+
+from collections import deque
+class MovingAverage(object):
+
+    def __init__(self, size):
+        """
+        Initialize your data structure here.
+        :type size: int
+        """
+        self.v=deque()
+        self.present=0
+        self.capacity=size
+        self.sum=0
+      
+
+    def next(self, val):
+        """
+        :type val: int
+        :rtype: float
+        """
+        if self.present==self.capacity:
+            self.sum-=self.v.popleft()
+            self.sum+=val
+            self.v.append(val)
+        else:
+            self.sum+=val
+            self.present+=1
+            self.v.append(val)
+        return float(self.sum)/self.present
+
+
+# Your MovingAverage object will be instantiated and called as such:
+# obj = MovingAverage(size)
+# param_1 = obj.next(val)
