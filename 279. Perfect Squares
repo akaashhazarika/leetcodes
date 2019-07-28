@@ -1,0 +1,44 @@
+279. Perfect Squares
+Medium
+
+1565
+
+127
+
+Favorite
+
+Share
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+
+Example 1:
+
+Input: n = 12
+Output: 3 
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
+
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+
+
+from functools import lru_cache
+from collections import deque
+class Solution:
+    
+    def numSquares(self, n: int) -> int:
+        search_list = [i*i for i in range(1,math.floor(n**0.5)+1)]
+        curr = deque()
+        curr.append(n)
+        counter = 0
+        while curr:
+            counter+=1
+            temporary = deque()
+            while curr:
+                no = curr.popleft()
+                for i in search_list:
+                    if i==no:return counter
+                    if i>no:continue
+                    temporary.append(no-i)
+            curr=temporary
+        return None
