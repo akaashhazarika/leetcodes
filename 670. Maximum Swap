@@ -1,0 +1,60 @@
+670. Maximum Swap
+Medium
+
+585
+
+47
+
+Favorite
+
+Share
+Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the maximum valued number you could get.
+
+Example 1:
+Input: 2736
+Output: 7236
+Explanation: Swap the number 2 and the number 7.
+Example 2:
+Input: 9973
+Output: 9973
+Explanation: No swap.
+Note:
+The given number is in the range [0, 108]
+Accepted
+
+
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        
+        """
+        res = []
+        while num:
+            res.append(num%10)
+            num = int(num/10) 
+        res = res[::-1]
+        print(res)
+        for i in range(len(res)):
+            maxim = res[i]
+            max_so_far = max(res[i+1:]+[float('-inf')])
+            if max_so_far>maxim:
+                j = res[::-1].index(max_so_far)
+                res[i],res[~j] = res[~j],res[i]
+                break
+     
+        p = []
+        for temp in map(str,res):
+            p.append(temp)
+        return int(''.join(p))
+        
+        """
+        nums =[int(x) for x in str(num)]
+        mapp = {value: index for index,value in enumerate(nums)}
+        for i,value in enumerate(nums):
+            for no in range(9,value,-1):
+                if mapp.get(no,float('-inf'))>i:
+                    nums[i], nums[mapp[no]] =  nums[mapp[no]], nums[i]
+                    return int(''.join(map(str,nums)))
+        return num
+
+                    
+                    
