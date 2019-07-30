@@ -1,0 +1,28 @@
+# Python3 program to find minimum number 
+# of swaps required to sort an array 
+
+# Function returns the minimum 
+# number of swaps required to sort the array 
+def minSwaps(arr): 
+  pos = [[value,index] for index,value in enumerate(arr)]
+  pos.sort(key=lambda v: (v[0]))
+  visited = [False]*len(arr)
+  print(pos)
+  counter =0 
+  for index,value in enumerate(pos):
+    if pos[index][1]== index or visited[index]==True:
+      continue
+    else:
+      cycle_length = 0
+      while visited[index]==False:
+        cycle_length+=1
+        visited[index] = True
+        index = pos[index][1] 
+      counter+=(cycle_length-1)
+  return counter
+          
+           
+
+# Driver Code	 
+arr = [2,4,5,1,3] 
+print(minSwaps(arr)) 
