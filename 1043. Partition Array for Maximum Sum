@@ -1,0 +1,46 @@
+1043. Partition Array for Maximum Sum
+Medium
+
+225
+
+19
+
+Favorite
+
+Share
+Given an integer array A, you partition the array into (contiguous) subarrays of length at most K.  After partitioning, each subarray has their values changed to become the maximum value of that subarray.
+
+Return the largest sum of the given array after partitioning.
+
+ 
+
+Example 1:
+
+Input: A = [1,15,7,9,2,5,10], K = 3
+Output: 84
+Explanation: A becomes [15,15,15,9,10,10,10]
+ 
+
+Note:
+
+1 <= K <= A.length <= 500
+0 <= A[i] <= 10^6
+
+
+
+class Solution(object):
+    def maxSumAfterPartitioning(self, A, K):
+        """
+        :type A: List[int]
+        :type K: int
+        :rtype: int
+        """
+        answer = [0]*(len(A))
+        for i in range(0,len(A)):
+            curr_max = 0
+            for k in range(K):
+                if i-k>=0:
+                    curr_max =max(curr_max,A[i-k]) 
+                    answer[i] = max(answer[i],(answer[i-k-1] if i-k-1>=0 else 0)+curr_max*(k+1))
+        return answer[-1]
+            
