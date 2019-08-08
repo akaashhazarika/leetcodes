@@ -1,0 +1,46 @@
+137. Single Number II
+Medium
+
+899
+
+266
+
+Favorite
+
+Share
+Given a non-empty array of integers, every element appears three times except for one, which appears exactly once. Find that single one.
+
+Note:
+
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+Example 1:
+
+Input: [2,2,3,2]
+Output: 3
+Example 2:
+
+Input: [0,1,0,1,0,1,99]
+Output: 99
+
+
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        result = 0
+        for i in range(32):
+            val = 1<<i
+            count=0
+            for n in nums:
+                n = abs(n)
+                count+=(val&n)
+            if count%3:
+                result|=val
+        pos, neg = result,result*-1
+        pos_c , neg_c = 0,0
+        for n in nums:
+            if n==pos:
+                pos_c+=1
+            elif n==neg:
+                neg_c+=1
+        return pos if pos_c==1 else neg
