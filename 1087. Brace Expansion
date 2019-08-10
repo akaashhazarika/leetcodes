@@ -1,0 +1,74 @@
+1087. Brace Expansion
+Medium
+
+48
+
+4
+
+Favorite
+
+Share
+A string S represents a list of words.
+
+Each letter in the word has 1 or more options.  If there is one option, the letter is represented as is.  If there is more than one option, then curly braces delimit the options.  For example, "{a,b,c}" represents options ["a", "b", "c"].
+
+For example, "{a,b,c}d{e,f}" represents the list ["ade", "adf", "bde", "bdf", "cde", "cdf"].
+
+Return all words that can be formed in this manner, in lexicographical order.
+
+ 
+
+Example 1:
+
+Input: "{a,b}c{d,e}f"
+Output: ["acdf","acef","bcdf","bcef"]
+Example 2:
+
+Input: "abcd"
+Output: ["abcd"]
+ 
+
+Note:
+
+1 <= S.length <= 50
+There are no nested curly brackets.
+All characters inside a pair of consecutive opening and ending curly brackets are different.
+
+
+
+class Solution(object):
+    def expand(self, S):
+        """
+        :type S: str
+        :rtype: List[str]
+        """
+        res = []
+        i = 0
+        s = S
+        while i<len(S):
+            if S[i]=='{':
+                i+=1
+                temp = []
+                while s[i]!='}':
+                    if s[i]==',':
+                        i+=1
+                        continue
+                    temp.append(s[i])
+                    i+=1
+                i+=1
+                res.append(temp)
+            else:
+                res.append(s[i])
+                i+=1
+        result = []
+        
+            
+        def helper(index,string):
+            if index==len(res):
+                result.append(string[:])
+                return 
+            else:
+                for e in res[index]:
+                    helper(index+1,string+e)
+        helper(0,'')
+        return sorted(result)
