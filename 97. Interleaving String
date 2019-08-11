@@ -1,0 +1,37 @@
+97. Interleaving String
+Hard
+
+854
+
+47
+
+Favorite
+
+Share
+Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
+
+Example 1:
+
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+Output: true
+Example 2:
+
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+Output: false
+
+
+from functools import lru_cache
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        @lru_cache(maxsize=None)
+        def helper(index1,index2,index):
+            if index1==len(s1) and index2==len(s2) and index==len(s3):
+                return True
+            v1,v2 = False,False
+            if (index1<len(s1) and index<len(s3)) and s1[index1]==s3[index]:
+                v1 = helper(index1+1,index2,index+1)
+            if (index2<len(s2) and index<len(s3)) and s2[index2]==s3[index]:
+                v2 = helper(index1,index2+1,index+1)
+            v = [v1,v2]
+            return any(v)
+        return helper(0,0,0)
