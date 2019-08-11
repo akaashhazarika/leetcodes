@@ -1,0 +1,52 @@
+188. Best Time to Buy and Sell Stock IV
+Hard
+
+843
+
+56
+
+Favorite
+
+Share
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete at most k transactions.
+
+Note:
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+
+Example 1:
+
+Input: [2,4,1], k = 2
+Output: 2
+Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+Example 2:
+
+Input: [3,2,6,5,0,3], k = 2
+Output: 7
+Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4.
+             Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+             
+class Solution(object):
+    def maxProfit(self, k, prices):
+        """
+        :type k: int
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices or not k:
+            return 0
+        if k>=len(prices)/2:
+            counter = 0
+            for p in range(1,len(prices)):
+                if prices[p-1]<prices[p]:
+                    counter+=(prices[p]-prices[p-1])
+            return counter
+        dp = [[0]*(len(prices)) for _ in range(k+1)]
+        
+        for t in range(1,k+1):
+            maxdiff = -prices[0]
+            for p in range(1,len(prices)):
+                dp[t][p] = max(dp[t][p-1],maxdiff+prices[p])
+                maxdiff = max(maxdiff, dp[t-1][p] -prices[p])
+        return dp[k][len(prices)-1]
