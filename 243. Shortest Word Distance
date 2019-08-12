@@ -1,0 +1,43 @@
+243. Shortest Word Distance
+Easy
+
+288
+
+28
+
+Favorite
+
+Share
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+
+Example:
+Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+
+Input: word1 = “coding”, word2 = “practice”
+Output: 3
+Input: word1 = "makes", word2 = "coding"
+Output: 1
+Note:
+You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.
+
+
+
+import collections
+import bisect
+class Solution:
+    def shortestDistance(self, words: List[str], word1: str, word2: str) -> int:
+        first,second = [],[]
+        for index,word in enumerate(words):
+            if word==word1:
+                first.append(index)
+            elif word==word2:
+                second.append(index)
+        i,j =0,0
+        dist = float('inf')
+        while i<len(first) and j<len(second):
+            dist = min(dist,abs(first[i]-second[j]))
+            if first[i]>second[j]:
+                j+=1
+            elif first[i]<second[j]:
+                i+=1
+        return dist
