@@ -1,0 +1,55 @@
+358. Rearrange String k Distance Apart
+Hard
+
+283
+
+13
+
+Favorite
+
+Share
+Given a non-empty string s and an integer k, rearrange the string such that the same characters are at least distance k from each other.
+
+All input strings are given in lowercase letters. If it is not possible to rearrange the string, return an empty string "".
+
+Example 1:
+
+Input: s = "aabbcc", k = 3
+Output: "abcabc" 
+Explanation: The same letters are at least distance 3 from each other.
+Example 2:
+
+Input: s = "aaabc", k = 3
+Output: "" 
+Explanation: It is not possible to rearrange the string.
+Example 3:
+
+Input: s = "aaadbbcc", k = 2
+Output: "abacabcd"
+Explanation: The same letters are at least distance 2 from each other.
+
+
+class Solution:
+    def rearrangeString(self, s: str, k: int) -> str:
+        mapp =collections.defaultdict(int)
+        for c in s:
+            mapp[ord(c)-ord('a')]+=1
+        position = [0]*26
+        def helper(ch_index):
+            maxim = 0
+            maxim_char = None
+            for i in range(26):
+                if ch_index>=position[i] and mapp[i]>0 and mapp[i]>maxim:
+                    maxim = mapp[i]
+                    maxim_char = chr(ord('a')+i)
+            return maxim_char
+        result = ''
+        for index,ch in enumerate(s):
+            present_char = helper(index)
+            if present_char == None:
+                return ''
+            result = result+present_char
+            position[ord(present_char)-ord('a')]+=k
+            mapp[ord(present_char)-ord('a')]-=1
+            
+        return result
