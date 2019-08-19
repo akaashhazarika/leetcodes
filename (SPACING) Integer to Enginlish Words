@@ -1,0 +1,23 @@
+Integer to Enginlish Words
+class Solution:
+    def __init__(self):
+        self.tw = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"]
+        self.h = ["","Ten","Twenty","thirty","Fourty","Fifty","Sixty","Seventy","Eighty","Ninty"]
+        self.th = [" ","Thousand ","Million ","Billion "]
+    def numberToWords(self, num: int) -> str:
+        result = ""
+        for i in range(len(self.th)):
+            if num%1000!=0:
+                result = self.caclulator(num%1000)+self.th[i]+result
+            num = num//1000
+        return result.rstrip() 
+    
+    def caclulator(self,number):
+        if number==0:
+            return ""
+        if number<=19:
+            return self.tw[number]+" "
+        if number<100:
+            return self.h[number//10]+" "+self.caclulator(number%10)
+        else:
+            return self.caclulator(number//100)+"Hundred "+self.caclulator(number%100)
