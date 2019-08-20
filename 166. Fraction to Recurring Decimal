@@ -1,0 +1,56 @@
+166. Fraction to Recurring Decimal
+Medium
+
+512
+
+1127
+
+Favorite
+
+Share
+Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
+
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+Example 1:
+
+Input: numerator = 1, denominator = 2
+Output: "0.5"
+Example 2:
+
+Input: numerator = 2, denominator = 1
+Output: "2"
+Example 3:
+
+Input: numerator = 2, denominator = 3
+Output: "0.(6)"
+
+
+
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator==0:
+            return "0"
+        res = ""
+        if ((0<numerator)^(0<denominator)):
+            res = '-'
+        n,d = abs(numerator),abs(denominator)
+        res = res + str(n//d)
+        curr = n%d
+        if not n%d:
+            return res
+        res = res + '.'
+        index = len(res)
+        mapp ={}
+        while curr:
+            if curr not in mapp:
+                mapp[curr] = index
+            else:
+                index = mapp[curr]
+                res = res[:index]+'('+res[index:]+')'
+                return res
+            curr = curr*10
+            index+=1
+            res = res +str(curr//d)
+            curr = curr%d
+        return res
