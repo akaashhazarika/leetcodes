@@ -1,0 +1,12 @@
+A = [[0,4], [7,12]]
+B = [[1,3], [5,8], [9,11]]
+i,j = 0,0
+res = []
+while i<len(A) and j<len(B):
+  minim, maxim = max(A[i][0],B[j][0]),min(A[i][1],B[j][1])
+  if minim<maxim:
+    res.append([minim,maxim])
+  if A[i][1]>B[j][1]:
+    j+=1
+  else:
+    i+=1
