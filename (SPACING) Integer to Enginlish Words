@@ -1,16 +1,15 @@
-Integer to Enginlish Words
 class Solution:
     def __init__(self):
         self.tw = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"]
-        self.h = ["","Ten","Twenty","thirty","Fourty","Fifty","Sixty","Seventy","Eighty","Ninty"]
-        self.th = [" ","Thousand ","Million ","Billion "]
+        self.h = ["","Ten","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"]
+        self.th = ["","Thousand ","Million ","Billion "]
     def numberToWords(self, num: int) -> str:
         result = ""
         for i in range(len(self.th)):
             if num%1000!=0:
                 result = self.caclulator(num%1000)+self.th[i]+result
             num = num//1000
-        return result.rstrip() 
+        return result.rstrip() or "Zero"
     
     def caclulator(self,number):
         if number==0:
