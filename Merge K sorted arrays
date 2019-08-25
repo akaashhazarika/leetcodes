@@ -30,3 +30,20 @@ while res:
     else:
         heapq.heappush(res,(next(it),it,curr+1,length))
 print(answer)
+
+
+res = []
+for i1,v1 in enumerate(result):
+    if v1:
+        it = iter(v1)
+        res.append((next(it),it))
+answer = []
+while res:
+    val, it = heapq.heappop(res)
+    answer.append(val)
+    next_element = next(it,None)
+    if next_element==None:
+        pass
+    else:
+        heapq.heappush(res,(next_element,it))
+print(answer)
