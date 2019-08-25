@@ -1,0 +1,51 @@
+301. Remove Invalid Parentheses
+Hard
+
+1621
+
+72
+
+Favorite
+
+Share
+Remove the minimum number of invalid parentheses in order to make the input string valid. Return all possible results.
+
+Note: The input string may contain letters other than the parentheses ( and ).
+
+Example 1:
+
+Input: "()())()"
+Output: ["()()()", "(())()"]
+Example 2:
+
+Input: "(a)())()"
+Output: ["(a)()()", "(a())()"]
+Example 3:
+
+Input: ")("
+Output: [""]
+
+
+
+class Solution(object):
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        def checker(s):
+            c = 0
+            for e in s:
+                c+=(e=='(') - (e==')')
+                if c<0:
+                    return False
+            return c==0
+        
+        res = set()
+        res.add(s)
+        while res:
+            result = filter(checker,res)
+            if result:
+                return result
+            res = {string[:i]+string[i+1:] for string in res for i in range(len(string))}
+        return []
