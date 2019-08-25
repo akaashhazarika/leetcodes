@@ -1,0 +1,38 @@
+from collections import deque
+nums =  [[5, 15, 20], [10, 20, 30], [7, 25, 10]]
+
+auxillary = []
+for index,n in enumerate(nums):
+    auxillary.append((n[0],n[2],1, index))
+    auxillary.append((n[1],n[2],-1, index))
+auxillary.sort(key=lambda v: (v[0]))
+vv =deque()
+for elem in auxillary:
+    vv.append(elem)
+
+mapp = {}
+start, speed, flag , id1 = vv.popleft()
+prev = start 
+curr_sum = speed
+curr_count = 1
+result = []
+while vv:
+    start, speed, flag , id1 = vv.popleft()
+    if start == prev:
+        if flag==1:
+            curr_sum+=speed
+            curr_count+=1
+        else:
+            curr_sum-=speed
+            curr_count-=1
+    else:
+        result.append([prev, start, curr_sum/curr_count])
+        if flag==1:
+            curr_sum+=speed
+            curr_count+=1
+        else:
+            curr_sum-=speed
+            curr_count-=1
+    prev = start
+
+print(result)
