@@ -1,0 +1,32 @@
+import heapq
+result = [[1,5,7],[2,4,8],[2,3,6]]
+res = []
+for i1,v1 in enumerate(result):
+    res.append((v1[0],i1,0,len(v1)))
+                   
+                       
+heapq.heapify(res)
+answer = []
+while res:
+    val,index,column,length = heapq.heappop(res)
+    answer+=val,
+    if column+1==length:
+        pass
+    else:
+        heapq.heappush(res,(result[index][column+1],index,column+1,length))
+print(answer)
+
+res = []
+for i1,v1 in enumerate(result):
+    if v1:
+        it = iter(v1)
+        res.append((next(it),it,1,len(v1)))
+answer = []
+while res:
+    val, it , curr, length = heapq.heappop(res)
+    answer.append(val)
+    if curr==length:
+        pass
+    else:
+        heapq.heappush(res,(next(it),it,curr+1,length))
+print(answer)
