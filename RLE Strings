@@ -1,0 +1,62 @@
+Given 2 run-length encoded strings s and t. Determine if they represent the same string.
+
+Example 1:
+
+Input: s = "3a1b", t = "2a1a1b"
+Ouptut: true
+Example 2:
+
+Input: s = "3a1b3c", t = "2a1a1b2c1d"
+Ouptut: false
+Expected O(1) space solution.
+
+Follow-up:
+Given a RLE string s and a width of a board. Assume that the board is filled from left to right such that each line has exactly width chars. Output the RLE string that represents the board rows from right to left without constructing the board.
+
+Example:
+
+Input: s = "3a1b3c3d2a", width = 4
+
+aaab
+cccd
+ddaa
+
+Output: "1b3a1d3c2a2d"
+
+
+
+s = "3a1b"
+t ="2a1a1b"
+
+
+def dfs(s,t):
+  if not s and not t:
+    return True
+  if not s or not t:
+    return False
+  s1 = 0
+  while s[s1].isdigit():
+    s1+=1
+  char1 = s[s1]
+  val1 = int(s[:s1])
+
+  s2 = 0
+  while t[s2].isdigit():
+    s2+=1
+  char2 = t[s2]
+  val2 = int(t[:s2])
+  if char1!=char2:
+    return False
+  if val1==val2:
+    return dfs(s[s1+1:],t[s2+1:])
+  if val1>val2:
+    val1 = val1-val2
+    new_string = str(val1)+str(char1)+s[s1+1:]
+    return dfs(new_string,t[s2+1:])
+  else:
+    val2 = val2-val1
+    new_string = str(val2)+str(char1)+t[s2+1:]
+    return dfs(s[s1+1:],new_string)
+s = "3a1b3c"
+t = "2a1a1b2c1d"
+print(dfs(s,t))
