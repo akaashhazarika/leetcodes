@@ -1,0 +1,39 @@
+539. Minimum Time Difference
+Medium
+
+284
+
+95
+
+Favorite
+
+Share
+Given a list of 24-hour clock time points in "Hour:Minutes" format, find the minimum minutes difference between any two time points in the list.
+Example 1:
+Input: ["23:59","00:00"]
+Output: 1
+Note:
+The number of time points in the given list is at least 2 and won't exceed 20000.
+The input time is legal and ranges from 00:00 to 23:59.
+
+
+class Solution(object):
+    def findMinDifference(self, timePoints):
+        """
+        :type timePoints: List[str]
+        :rtype: int
+        """
+        mylist = []
+        for point in timePoints:
+            hour,minute = (point.split(':'))
+            hour,minute = int(hour),int(minute)
+            mylist.append(hour*60+minute)
+        
+        minim = 24*60
+        mylist.sort()
+        for i,j in zip(mylist,mylist[1:]+[mylist[0]]):
+            if min(abs(i-j-24*60),abs(i-j))<minim:
+                minim = min(abs(i-j-24*60),abs(i-j))
+        return minim
+            
+        
