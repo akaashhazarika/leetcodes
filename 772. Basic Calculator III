@@ -1,0 +1,46 @@
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        s = s+'%'
+        def helper(stack,i):
+            curr,sign = 0,'+'
+            while i<len(s):
+                if s[i]==' ':
+                    i+=1
+                    continue
+                elif s[i].isnumeric():
+                    curr = curr*10+int(s[i])
+                    i+=1
+                elif s[i]=='(':
+                    curr,i = helper([],i+1)
+                else:
+                    if sign =='+':
+                        stack.append(curr)
+                    elif sign=='-':
+                        stack.append(-curr)
+                    elif sign=='*':
+                        stack[-1] = stack[-1]*curr
+                    elif sign=='/':
+                        print(stack[-1],curr)
+                        v1 = stack.pop()
+                        v2 = curr
+                        
+                        value = int(abs(v1)/abs(v2))
+                        if v1>=0:
+                            value = value*1
+                        else:
+                            value = -value
+                        stack.append(value)
+                    else:
+                        pass
+                    curr = 0
+                    i+=1
+                    if s[i-1]==')':
+                        return (sum(stack),i)
+                    else:
+                        curr,sign = 0,s[i-1]
+            return sum(stack)
+        return helper([],0)
