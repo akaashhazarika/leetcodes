@@ -1,0 +1,15 @@
+import heapq
+class Solution(object):
+    def minMeetingRooms(self, intervals):
+        if not intervals:
+            return 0
+        intervals.sort(key = lambda v:(v[0]))
+        res = [intervals[0][1]]
+        maxim = 1
+        print(intervals)
+        for s,e in intervals[1:]:
+            if res and s>=res[0]:
+                _ = heapq.heappop(res)
+            heapq.heappush(res,e)
+            maxim = max(maxim,len(res))
+        return maxim
