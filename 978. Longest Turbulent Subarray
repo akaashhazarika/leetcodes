@@ -1,0 +1,82 @@
+978. Longest Turbulent Subarray
+Medium
+
+151
+
+58
+
+Favorite
+
+Share
+A subarray A[i], A[i+1], ..., A[j] of A is said to be turbulent if and only if:
+
+For i <= k < j, A[k] > A[k+1] when k is odd, and A[k] < A[k+1] when k is even;
+OR, for i <= k < j, A[k] > A[k+1] when k is even, and A[k] < A[k+1] when k is odd.
+That is, the subarray is turbulent if the comparison sign flips between each adjacent pair of elements in the subarray.
+
+Return the length of a maximum size turbulent subarray of A.
+
+ 
+
+Example 1:
+
+Input: [9,4,2,10,7,8,8,1,9]
+Output: 5
+Explanation: (A[1] > A[2] < A[3] > A[4] < A[5])
+Example 2:
+
+Input: [4,8,12,16]
+Output: 2
+Example 3:
+
+Input: [100]
+Output: 1
+ 
+
+Note:
+
+1 <= A.length <= 40000
+0 <= A[i] <= 10^9
+
+
+
+class Solution:
+    def maxTurbulenceSize(self, A: List[int]) -> int:
+        if not A:
+            return 0
+        maxim  = 1 
+        to_clear = -1
+        for i in range(len(A)):
+            if to_clear>=i:
+                continue
+            j = i+1    
+            if j==len(A):
+                continue
+            if A[i]==A[j]:
+                continue
+            if A[i]-A[j]>0:
+                diff = -1
+                counter = 0
+            else:
+                diff = +1
+                counter = 0
+            k = j+1
+            counter = 2
+            while k<len(A):
+                if diff==-1:
+                    if A[j]-A[k]<0:
+                        diff = +1
+                        j,k = j+1,k+1
+                        counter+=1
+                    else:
+                        break
+                else:
+                    if A[j]-A[k]>0:
+                        diff = -1
+                        j,k = j+1,k+1
+                        counter+=1
+                    else:
+                        break
+            maxim = max(maxim,counter)
+            to_clear = i+(counter-2)
+        return maxim
