@@ -1,0 +1,40 @@
+611. Valid Triangle Number
+Medium
+
+737
+
+82
+
+Favorite
+
+Share
+Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
+Example 1:
+Input: [2,2,3,4]
+Output: 3
+Explanation:
+Valid combinations are: 
+2,3,4 (using the first 2)
+2,3,4 (using the second 2)
+2,2,3
+Note:
+The length of the given array won't exceed 1000.
+The integers in the given array are in the range of [0, 1000].
+
+
+class Solution:
+    def triangleNumber(self, nums: List[int]) -> int:
+        # i,j...........k        
+        # 2,2 .. . . . . . .k  : reuse the k value:::::   
+        nums.sort()
+        l,n = 0,len(nums)
+        ans = 0
+        for i in range(n-1,-1,-1):
+            l,h = 0,i-1
+            while l<h:
+                if nums[i]<nums[l]+nums[h]:
+                    ans+=(h-l)
+                    h-=1
+                else:
+                    l+=1
+        return ans
