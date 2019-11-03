@@ -1,0 +1,50 @@
+884. Uncommon Words from Two Sentences
+Easy
+
+281
+
+69
+
+Favorite
+
+Share
+We are given two sentences A and B.  (A sentence is a string of space separated words.  Each word consists only of lowercase letters.)
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Return a list of all uncommon words. 
+
+You may return the list in any order.
+
+ 
+
+Example 1:
+
+Input: A = "this apple is sweet", B = "this apple is sour"
+Output: ["sweet","sour"]
+Example 2:
+
+Input: A = "apple apple", B = "banana"
+Output: ["banana"]
+ 
+
+Note:
+
+0 <= A.length <= 200
+0 <= B.length <= 200
+A and B both contain only spaces and lowercase letters.
+
+
+import collections
+class Solution:
+    def uncommonFromSentences(self, A: str, B: str) -> List[str]:
+        mapp = collections.defaultdict(int)
+        for word in A.split():
+            mapp[word]+=1
+        for word in B.split():
+            mapp[word]+=1
+        res = []
+        for key,value in mapp.items():
+            if value==1:
+                res+=key,
+        return res
