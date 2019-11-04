@@ -1,0 +1,65 @@
+1192. Critical Connections in a Network
+Hard
+
+253
+
+28
+
+Favorite
+
+Share
+There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.
+
+A critical connection is a connection that, if removed, will make some server unable to reach some other server.
+
+Return all critical connections in the network in any order.
+
+ 
+
+Example 1:
+
+
+
+Input: n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]
+Output: [[1,3]]
+Explanation: [[3,1]] is also accepted.
+ 
+
+Constraints:
+
+1 <= n <= 10^5
+n-1 <= connections.length <= 10^5
+connections[i][0] != connections[i][1]
+There are no repeated connections.
+Accepted
+
+
+
+import collections
+class Solution:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        neigh = collections.defaultdict(list)
+        for a,b in connections:
+            neigh[a].append(b)
+            neigh[b].append(a)
+        l =len(neigh.keys())
+        level,low = [None]*l, [None]*l
+        self.id = 1
+        def helper(node,par,neigh,level,low):
+            if level[node] is not None:
+                return 
+            level[node] = low[node] = self.id
+            self.id+=1
+            for n in neigh[node]:
+                if level[n] is None:
+                    helper(n,node,neigh,level,low)
+                
+            val = min([low[n] for n in neigh[node] if n!=par]+[float('inf')])
+            low[node] = min(val,low[node])
+                       
+        helper(0,None,neigh,level,low)
+        results = []
+        for a,b in connections:
+            if low[a]>level[b] or low[b]>level[a]:
+                results.append([a,b])
+        return results
