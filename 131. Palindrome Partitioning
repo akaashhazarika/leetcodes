@@ -1,0 +1,40 @@
+131. Palindrome Partitioning
+Medium
+
+1221
+
+49
+
+Favorite
+
+Share
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+Example:
+
+Input: "aab"
+Output:
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+
+
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        
+        res = []
+        def helper(s,path,res):
+            if not s:
+                if path:
+                    res.append(path[:])
+            else:
+                for i in range(1,len(s)+1):
+                    st = s[:i]
+                    if st==st[::-1]:
+                        helper(s[i:],path+[st],res)
+
+        helper(s,[],res)
+        return res
