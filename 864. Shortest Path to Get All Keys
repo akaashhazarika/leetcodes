@@ -1,0 +1,83 @@
+864. Shortest Path to Get All Keys
+Hard
+
+548
+
+20
+
+Add to List
+
+Share
+We are given a 2-dimensional grid. "." is an empty cell, "#" is a wall, "@" is the starting point, ("a", "b", ...) are keys, and ("A", "B", ...) are locks.
+
+We start at the starting point, and one move consists of walking one space in one of the 4 cardinal directions.  We cannot walk outside the grid, or walk into a wall.  If we walk over a key, we pick it up.  We can't walk over a lock unless we have the corresponding key.
+
+For some 1 <= K <= 6, there is exactly one lowercase and one uppercase letter of the first K letters of the English alphabet in the grid.  This means that there is exactly one key for each lock, and one lock for each key; and also that the letters used to represent the keys and locks were chosen in the same order as the English alphabet.
+
+Return the lowest number of moves to acquire all keys.  If it's impossible, return -1.
+
+ 
+
+Example 1:
+
+Input: ["@.a.#","###.#","b.A.B"]
+Output: 8
+Example 2:
+
+Input: ["@..aA","..B#.","....b"]
+Output: 6
+ 
+
+Note:
+
+1 <= grid.length <= 30
+1 <= grid[0].length <= 30
+grid[i][j] contains only '.', '#', '@', 'a'-'f' and 'A'-'F'
+The number of keys is in [1, 6].  Each key has a different letter and opens exactly one lock.
+
+
+from collections import deque
+class Solution:
+    def shortestPathAllKeys(self, grid: List[str]) -> int:
+        visited = set()
+        keys = 0
+        starting = []
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j]=='@':
+                    starting = [i,j]
+                if grid[i][j] in 'abcdef':
+                    keys+=1
+                    
+        d = deque()
+        # Args: Steps, x_corr, y_coor, key 
+        d.append((0,starting[0],starting[1],''))
+        print(keys)
+        while d:
+            row = d.popleft()
+            if (row[1],row[2],row[3]) in visited:
+                continue
+            visited.add((row[1],row[2],row[3]))  
+            x,y = row[1],row[2]
+            current_key = row[3]
+            if grid[row[1]][row[2]] in 'abcdef' and grid[row[1]][row[2]] not in current_key:
+                current_key = ''.join(sorted(current_key+grid[row[1]][row[2]]))
+            
+            if len(current_key)==keys:
+                return row[0]
+            
+            for i,j in [(x-1,y),(x+1,y),(x,y-1),(x,y+1)]:
+                if i>=0 and i<len(grid) and j>=0 and j<len(grid[0]) and grid[i][j]!='#':
+                    if grid[i][j] in'@.abcdef':
+                        d.append((row[0]+1,i,j,current_key))
+                    if grid[i][j] in 'ABCDEF' and grid[i][j].lower() in current_key:
+                        d.append((row[0]+1,i,j,current_key))
+        return -1
+                
+            
+            
+            
+            
+            
+            
+            
