@@ -1,0 +1,89 @@
+1048. Longest String Chain
+Medium
+
+3453
+
+166
+
+Add to List
+
+Share
+You are given an array of words where each word consists of lowercase English letters.
+
+wordA is a predecessor of wordB if and only if we can insert exactly one letter anywhere in wordA without changing the order of the other characters to make it equal to wordB.
+
+For example, "abc" is a predecessor of "abac", while "cba" is not a predecessor of "bcad".
+A word chain is a sequence of words [word1, word2, ..., wordk] with k >= 1, where word1 is a predecessor of word2, word2 is a predecessor of word3, and so on. A single word is trivially a word chain with k == 1.
+
+Return the length of the longest possible word chain with words chosen from the given list of words.
+
+ 
+
+Example 1:
+
+Input: words = ["a","b","ba","bca","bda","bdca"]
+Output: 4
+Explanation: One of the longest word chains is ["a","ba","bda","bdca"].
+Example 2:
+
+Input: words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]
+Output: 5
+Explanation: All the words can be put in a word chain ["xb", "xbc", "cxbc", "pcxbc", "pcxbcf"].
+Example 3:
+
+Input: words = ["abcd","dbqca"]
+Output: 1
+Explanation: The trivial word chain ["abcd"] is one of the longest word chains.
+["abcd","dbqca"] is not a valid word chain because the ordering of the letters is changed.
+ 
+
+Constraints:
+
+1 <= words.length <= 1000
+1 <= words[i].length <= 16
+words[i] only consists of lowercase English letters.
+
+
+
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        if not words:
+            return 0 
+        
+        dp = [0]*len(words)
+        dp[0] = 1
+        
+        def compare_is_predecessor(word1, word2):
+            if len(word1)!=len(word2)-1:
+                return False
+            i2 = 0
+            mismatches = 0
+            for i in range(len(word1)):
+                if word1[i]==word2[i2]:
+                    i2+=1
+                elif word1[i]!=word2[i2]:
+                    i2 = i2+1
+                    mismatches+=1
+                    if mismatches>1:
+                        return False
+                    if word1[i]!=word2[i2]:
+                        return False
+                    else:
+                        i2 = i2+1
+            return True
+        words.sort(key=lambda v: len(v))
+        predecessor_array = collections.defaultdict(set)
+        for index,word in enumerate(words[1:], 1):
+            predecessor = set()
+            for i in range(index-1,-1,-1):
+                if words[i] not in predecessor and dp[i]>=dp[index] and  compare_is_predecessor(words[i], word):
+                    del predecessor
+                    predecessor = set()
+                    for word in predecessor_array[words[i]]:
+                        predecessor.add(word)
+                    predecessor.add(words[i])
+                    dp[index] = max(dp[index], dp[i]+1)
+            dp[index] = max(dp[index],1)
+            predecessor_array[word] = predecessor
+                
+        return max(dp)
