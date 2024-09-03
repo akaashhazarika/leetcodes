@@ -1,0 +1,72 @@
+959. Regions Cut By Slashes
+Medium
+Topics
+Companies
+An n x n grid is composed of 1 x 1 squares where each 1 x 1 square consists of a '/', '\', or blank space ' '. These characters divide the square into contiguous regions.
+
+Given the grid grid represented as a string array, return the number of regions.
+
+Note that backslash characters are escaped, so a '\' is represented as '\\'.
+
+ 
+
+Example 1:
+
+
+Input: grid = [" /","/ "]
+Output: 2
+Example 2:
+
+
+Input: grid = [" /","  "]
+Output: 1
+Example 3:
+
+
+Input: grid = ["/\\","\\/"]
+Output: 5
+Explanation: Recall that because \ characters are escaped, "\\/" refers to \/, and "/\\" refers to /\.
+ 
+
+Constraints:
+
+n == grid.length == grid[i].length
+1 <= n <= 30
+grid[i][j] is either '/', '\', or ' '.
+
+
+class Solution:
+    def regionsBySlashes(self, grid: List[str]) -> int:
+        n,m = len(grid), len(grid[0])
+        p,q = 3*n, 3*m
+        dp = [[1]*p for _ in range(q)]
+
+        for i in range(n):
+            for j in range(m):
+                r,c = 3*i, 3*j
+                if grid[i][j]=='/':
+                    dp[r][c+2] = 0
+                    dp[r+1][c+1] = 0
+                    dp[r+2][c] = 0
+                elif grid[i][j]=='\\':
+                    dp[r][c] = 0
+                    dp[r+1][c+1] = 0
+                    dp[r+2][c+2] = 0
+        print(dp)
+        return self.numberofIslands(dp)
+
+    def numberofIslands(self,dp):
+        n,m = len(dp), len(dp[0])
+        islands = 0
+        def dfs(dp, i, j, n, m):
+            if i>=0 and i<n and j>=0 and j<n and dp[i][j]==1:
+                dp[i][j]=0
+                for direction in [[0,1],[0,-1],[-1,0],[1,0]]:
+                    dfs(dp,i+direction[0],j+direction[1],n,m)
+
+        for i in range(n):
+            for j in range(m):
+                if dp[i][j]==1:
+                    islands+=1
+                    dfs(dp,i,j,n,m)
+        return islands
